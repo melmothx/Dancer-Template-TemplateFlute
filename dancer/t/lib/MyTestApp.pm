@@ -94,5 +94,66 @@ any [qw/post get/] => '/checkout' => sub {
                                     };
 };
 
+get '/iter' => sub {
+    template dropdown => {
+                          my_wishlists_dropdown => iterator()
+                         };
+};
+
+any [qw/get post/] => '/double-dropdown' => sub {
+    my $form = form('account_edit');
+    my %values = %{$form->values};
+    # VALIDATE, filter, etc. the values
+    $form->fill(\%values);
+
+    template double => {
+                        'roles' => [
+                                    {
+                                     'value' => '1'
+                                    },
+                                    {
+                                     'value' => '2'
+                                    },
+                                    {
+                                     'value' => '3'
+                                    },
+                                    {
+                                     'value' => '4'
+                                    } 
+                                   ],
+                        form => $form,
+                       };
+};
+
+any [qw/get post/] => '/double-dropdown-noform' => sub {
+    template double => {
+                        'roles' => [
+                                    {
+                                     'value' => '1'
+                                    },
+                                    {
+                                     'value' => '2'
+                                    },
+                                    {
+                                     'value' => '3'
+                                    },
+                                    {
+                                     'value' => '4'
+                                    } 
+                                   ],
+                       };
+};
+
+
+
+
+sub iterator {
+    return [{ label => "a",
+              value => "b" },
+            { label => "c",
+              value => "d" }]
+}
+
+
 1;
 
