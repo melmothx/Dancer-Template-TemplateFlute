@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 70;
+use Test::More tests => 74;
 
 use File::Spec;
 use Data::Dumper;
@@ -204,6 +204,25 @@ check_sticky_form($resp, %multiple_first, %multiple_second);
 
 response_content_unlike $resp, qr/<option selected="selected"/,
   "Options are not selected";
+
+
+
+$resp = dancer_response GET => '/iter';
+
+response_status_is $resp, 200, "GET / is found";
+response_content_like $resp, qr{<option value="b">a</option><option value="d">c</option>}, "Found the dropdown";
+
+$resp = dancer_response GET => '/double-dropdown-noform';
+
+response_content_like $resp,
+  qr{<select id="role" name="role"><option value="">Please select role</option><option>1</option><option>2</option><option>3</option><option>4</option></select>}, "No duplicate for a dropdown without form";
+
+$resp = dancer_response GET => '/double-dropdown';
+
+response_content_like $resp,
+  qr{<select id="role" name="role"><option value="">Please select role</option><option>1</option><option>2</option><option>3</option><option>4</option></select>},
+  "No duplicate for a dropdown with a form";
+
 
 
 
