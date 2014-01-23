@@ -15,6 +15,10 @@ t/pod.t
 t/template.t
 t/views/checkout-giftinfo.html
 t/views/checkout-giftinfo.xml
+t/views/double.html
+t/views/double.xml
+t/views/dropdown.html
+t/views/dropdown.xml
 t/views/index.html
 t/views/index.xml
 t/views/login.html
