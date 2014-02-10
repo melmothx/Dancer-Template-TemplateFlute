@@ -2,7 +2,7 @@ NAME
     Dancer::Template::TemplateFlute - Template::Flute wrapper for Dancer
 
 VERSION
-    Version 0.0092
+    Version 0.0099
 
 DESCRIPTION
     This class is an interface between Dancer's template engine abstraction
@@ -53,6 +53,62 @@ DESCRIPTION
                 int_curr_symbol: "$"
             image:
               class: "Flowers::Filters::Image"
+
+  LOCALIZATION
+    Templates can be localized using the Template::Flute::I18N module. You
+    can define a class that provides a method which takes as first (and only
+    argument) the string to translate, and returns the translated one. You
+    have to provide the class and the method. If the class is not provided,
+    no localization is done. If no method is specified, 'localize' will be
+    used. The app will crash if the class doesn't provide such method.
+
+    Be sure to return the argument verbatim if the module is not able to
+    translate the string.
+
+    Example configuration, assuming the class `MyApp::Lexicon' provides a
+    `try_to_translate' method.
+
+      engines:
+        template_flute:
+          i18n:
+            class: MyApp::Lexicon
+            method: try_to_translate
+
+    A class could be something like this:
+
+      package MyTestApp::Lexicon;
+      use Dancer ':syntax';
+
+      sub new {
+          my $class = shift;
+          debug "Loading up $class";
+          my $self = {
+                      dictionary => {
+                                     en => {
+                                            'TRY' => 'Try',
+                                           },
+                                     it => {
+                                            'TRY' => 'Prova',
+                                           },
+                                    }
+                     };
+          bless $self, $class;
+      }
+
+      sub dictionary {
+          return shift->{dictionary};
+      }
+
+      sub try_to_translate {
+          my ($self, $string) = @_;
+          my $lang = session('lang') || var('lang');
+          return $string unless $lang;
+          return $string unless $self->dictionary->{$lang};
+          my $tr = $self->dictionary->{$lang}->{$string};
+          defined $tr ? return $tr : return $string;
+      }
+
+      1;
 
   FORMS
     Dancer::Template::TemplateFlute includes a form plugin
@@ -228,7 +284,7 @@ SUPPORT
         http://search.cpan.org/dist/Dancer-Template-TemplateFlute/
 
 LICENSE AND COPYRIGHT
-    Copyright 2011-2013 Stefan Hornburg (Racke) <racke@linuxia.de>.
+    Copyright 2011-2014 Stefan Hornburg (Racke) <racke@linuxia.de>.
 
     This program is free software; you can redistribute it and/or modify it
     under the terms of either: the GNU General Public License as published

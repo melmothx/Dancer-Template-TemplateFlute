@@ -1,5 +1,16 @@
 Revision history for Dancer::Template::TemplateFlute
 
+0.0099 Mon Feb 10 21:20:19 2014 CET
+
+    [ENHANCEMENTS]
+ 
+    * Add meta resources to Makefile.PL.
+    * Add I18N support for Template::Flute engine (GH #2, Marco Pessotto).
+
+    [TESTS]
+
+    * Add tests for dropdown failures.
+
 0.0092 Thu Dec 19 16:11:46 2013 CET
 
     [ENHANCEMENTS]
