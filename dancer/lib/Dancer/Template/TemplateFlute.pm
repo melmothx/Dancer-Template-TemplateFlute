@@ -102,7 +102,7 @@ A class could be something like this:
 
   package MyTestApp::Lexicon;
   use Dancer ':syntax';
-  
+
   sub new {
       my $class = shift;
       debug "Loading up $class";
@@ -118,11 +118,11 @@ A class could be something like this:
                  };
       bless $self, $class;
   }
-  
+
   sub dictionary {
       return shift->{dictionary};
   }
-  
+
   sub try_to_translate {
       my ($self, $string) = @_;
       my $lang = session('lang') || var('lang');
@@ -131,7 +131,7 @@ A class could be something like this:
       my $tr = $self->dictionary->{$lang}->{$string};
       defined $tr ? return $tr : return $string;
   }
-  
+
   1;
 
 =head2 FORMS
