@@ -75,6 +75,29 @@ Filter options and classes can be specified in the configuration file as below.
         image:
           class: "Flowers::Filters::Image"
 
+=head2 LOCALIZATION
+
+Templates can be localized using the Template::Flute::I18N module. You
+can define a class that provides a method which takes as first (and
+only argument) the string to translate, and returns the translated
+one. You have to provide the class and the method. If the class is not
+provided, no localization is done. If no method is specified,
+'localize' will be used. The app will crash if the class doesn't
+provide such method.
+
+B<Be sure to return the argument verbatim if the module is not able to
+translate the string>.
+
+Example configuration, assuming the class C<MyApp::Lexicon> provides a
+C<try_to_translate> method.
+
+  engines:
+    template_flute:
+      i18n:
+        class: MyApp::Lexicon
+        method: try_to_translate
+
+
 =head2 FORMS
 
 Dancer::Template::TemplateFlute includes a form plugin L<Dancer::Plugin::Form>,

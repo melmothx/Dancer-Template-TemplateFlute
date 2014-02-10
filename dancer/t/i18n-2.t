@@ -20,20 +20,20 @@ set session => 'Simple';
 # set engines => { template_flute => { i18n => { class => 'MyTestApp::Lexicon' } } };
 
 diag "Testing baby module";
-use MyTestApp::Lexicon;
-my $loc = MyTestApp::Lexicon->new;
+use MyTestApp::Lexicon2;
+my $loc = MyTestApp::Lexicon2->new;
 
 var lang => 'it';
-is $loc->localize('try'), 'Sono in italiano';
-is $loc->localize('blabla'), 'blabla';
+is $loc->try_to_translate('try'), 'Sono in italiano';
+is $loc->try_to_translate('blabla'), 'blabla';
 
 var lang => 'en';
-is $loc->localize('try'), 'I am english now';
-is $loc->localize('blabla'), 'blabla';
+is $loc->try_to_translate('try'), 'I am english now';
+is $loc->try_to_translate('blabla'), 'blabla';
 
 diag "Loading the app";
 
-use MyTestApp2;
+use MyTestApp3;
 use Dancer::Test;
 
 my $resp = dancer_response GET => '/en';
