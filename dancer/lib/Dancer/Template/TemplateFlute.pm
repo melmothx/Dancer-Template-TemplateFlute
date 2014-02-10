@@ -6,6 +6,8 @@ use warnings;
 use Template::Flute;
 use Template::Flute::Iterator;
 use Template::Flute::Utils;
+use Template::Flute::I18N;
+use Module::Load;
 
 use Dancer::Config;
 
@@ -234,6 +236,28 @@ sub default_tmpl_ext {
 	return 'html';
 }
 
+sub _i18n_sub {
+    my $self = shift;
+    unless (exists $self->{_i18n_sub}) {
+        my $conf = $self->config;
+        my $localize;
+        if ($conf and exists $conf->{i18n} and exists $conf->{i18n}->{class}) {
+            my $class = $conf->{i18n}->{class};
+            load $class;
+            my $obj = $class->new;
+            my $method = $conf->{i18n}->{method} || 'localize';
+            # store the closure in the object to avoid loading it up each time
+            $localize = sub {
+                my $to_translate = shift;
+                return $obj->$method($to_translate);
+            };
+        }
+        $self->{_i18n_sub} = $localize;
+    }
+    return $self->{_i18n_sub};
+}
+
+
 sub render ($$$) {
 	my ($self, $template, $tokens) = @_;
 	my (%args, $flute, $html, $name, $value, %parms, %template_iterators, %iterators, $class);
@@ -244,6 +268,10 @@ sub render ($$$) {
 		 values => $tokens,
 		 filters => $self->config->{filters},
 	    );
+
+    if (my $i18n = $self->_i18n_sub) {
+        $args{i18n} = Template::Flute::I18N->new($i18n);
+    }
 
 	$flute = Template::Flute->new(%args);
 
