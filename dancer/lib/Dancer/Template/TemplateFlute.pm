@@ -6,6 +6,8 @@ use warnings;
 use Template::Flute;
 use Template::Flute::Iterator;
 use Template::Flute::Utils;
+use Template::Flute::I18N;
+use Module::Load;
 
 use Dancer::Config;
 
@@ -72,6 +74,65 @@ Filter options and classes can be specified in the configuration file as below.
             int_curr_symbol: "$"
         image:
           class: "Flowers::Filters::Image"
+
+=head2 LOCALIZATION
+
+Templates can be localized using the Template::Flute::I18N module. You
+can define a class that provides a method which takes as first (and
+only argument) the string to translate, and returns the translated
+one. You have to provide the class and the method. If the class is not
+provided, no localization is done. If no method is specified,
+'localize' will be used. The app will crash if the class doesn't
+provide such method.
+
+B<Be sure to return the argument verbatim if the module is not able to
+translate the string>.
+
+Example configuration, assuming the class C<MyApp::Lexicon> provides a
+C<try_to_translate> method.
+
+  engines:
+    template_flute:
+      i18n:
+        class: MyApp::Lexicon
+        method: try_to_translate
+
+
+A class could be something like this:
+
+  package MyTestApp::Lexicon;
+  use Dancer ':syntax';
+  
+  sub new {
+      my $class = shift;
+      debug "Loading up $class";
+      my $self = {
+                  dictionary => {
+                                 en => {
+                                        'TRY' => 'Try',
+                                       },
+                                 it => {
+                                        'TRY' => 'Prova',
+                                       },
+                                }
+                 };
+      bless $self, $class;
+  }
+  
+  sub dictionary {
+      return shift->{dictionary};
+  }
+  
+  sub try_to_translate {
+      my ($self, $string) = @_;
+      my $lang = session('lang') || var('lang');
+      return $string unless $lang;
+      return $string unless $self->dictionary->{$lang};
+      my $tr = $self->dictionary->{$lang}->{$string};
+      defined $tr ? return $tr : return $string;
+  }
+  
+  1;
 
 =head2 FORMS
 
@@ -234,6 +295,28 @@ sub default_tmpl_ext {
 	return 'html';
 }
 
+sub _i18n_sub {
+    my $self = shift;
+    unless (exists $self->{_i18n_sub}) {
+        my $conf = $self->config;
+        my $localize;
+        if ($conf and exists $conf->{i18n} and exists $conf->{i18n}->{class}) {
+            my $class = $conf->{i18n}->{class};
+            load $class;
+            my $obj = $class->new;
+            my $method = $conf->{i18n}->{method} || 'localize';
+            # store the closure in the object to avoid loading it up each time
+            $localize = sub {
+                my $to_translate = shift;
+                return $obj->$method($to_translate);
+            };
+        }
+        $self->{_i18n_sub} = $localize;
+    }
+    return $self->{_i18n_sub};
+}
+
+
 sub render ($$$) {
 	my ($self, $template, $tokens) = @_;
 	my (%args, $flute, $html, $name, $value, %parms, %template_iterators, %iterators, $class);
@@ -244,6 +327,10 @@ sub render ($$$) {
 		 values => $tokens,
 		 filters => $self->config->{filters},
 	    );
+
+    if (my $i18n = $self->_i18n_sub) {
+        $args{i18n} = Template::Flute::I18N->new($i18n);
+    }
 
 	$flute = Template::Flute->new(%args);
 
