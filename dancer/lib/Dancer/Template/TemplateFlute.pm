@@ -98,6 +98,42 @@ C<try_to_translate> method.
         method: try_to_translate
 
 
+A class could be something like this:
+
+  package MyTestApp::Lexicon;
+  use Dancer ':syntax';
+  
+  sub new {
+      my $class = shift;
+      debug "Loading up $class";
+      my $self = {
+                  dictionary => {
+                                 en => {
+                                        'TRY' => 'Try',
+                                       },
+                                 it => {
+                                        'TRY' => 'Prova',
+                                       },
+                                }
+                 };
+      bless $self, $class;
+  }
+  
+  sub dictionary {
+      return shift->{dictionary};
+  }
+  
+  sub try_to_translate {
+      my ($self, $string) = @_;
+      my $lang = session('lang') || var('lang');
+      return $string unless $lang;
+      return $string unless $self->dictionary->{$lang};
+      my $tr = $self->dictionary->{$lang}->{$string};
+      defined $tr ? return $tr : return $string;
+  }
+  
+  1;
+
 =head2 FORMS
 
 Dancer::Template::TemplateFlute includes a form plugin L<Dancer::Plugin::Form>,
