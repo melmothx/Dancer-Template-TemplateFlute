@@ -87,7 +87,7 @@ sub new {
 
     $class = shift;
 
-    $self = {fields => [], errors => [], valid => undef};
+    $self = {fields => [], errors => [], valid => undef, pristine => 1};
     bless $self;
 
     %params = @_;
@@ -377,6 +377,24 @@ sub fields {
     return $self->{fields};    
 }
 
+=head2 pristine
+
+Determines whether a form is pristine or not.
+
+This can be used to fill the form with default
+values and suppress display of errors.
+
+A form is pristine until it receives form
+field input from the request or out of the
+session.
+
+=cut
+
+sub pristine {
+    warn "Pristine is now: ", $_[0]->{pristine};
+    return $_[0]->{pristine};
+};
+
 =head2 reset
 
 Reset form information (fields, errors, values, valid) and
@@ -391,6 +409,7 @@ sub reset {
     $self->{errors} = [];
     $self->{values} = {};
     $self->{valid} = undef;
+    $self->{pristine} = 1;
     $self->to_session;
 
     return 1;
@@ -406,17 +425,23 @@ Returns 1 if session contains data for this form, 0 otherwise.
 sub from_session {
     my ($self) = @_;
     my ($forms_ref, $form);
-    
-    if ($forms_ref = session('form')) {
-	$form = $forms_ref->{$self->{name}};
 
-	$self->{fields} = $form->{fields} || [];
-	$self->{errors} = $form->{errors} || [];
-	$self->{values} = $form->{values} || {};
-	$self->{valid} = $form->{valid};
-	
-	return 1;
-    } 	
+    if ($forms_ref = session('form')) {
+        if (exists $forms_ref->{$self->{name}}) {
+            $form = $forms_ref->{$self->{name}};
+
+            $self->{fields} = $form->{fields} || [];
+            $self->{errors} = $form->{errors} || [];
+            $self->{values} = $form->{values} || {};
+            $self->{valid} = $form->{valid};
+
+            if (keys %{$self->{values}}) {
+                $self->{pristine} = 0;
+            }
+
+            return 1;
+        }
+    }
 
     return 0;
 }
