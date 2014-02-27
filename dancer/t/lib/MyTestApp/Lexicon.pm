@@ -4,7 +4,6 @@ use Dancer ':syntax';
 
 sub new {
     my $class = shift;
-    debug "Loading up $class";
     my $self = {
                 dictionary => {
                                en => {

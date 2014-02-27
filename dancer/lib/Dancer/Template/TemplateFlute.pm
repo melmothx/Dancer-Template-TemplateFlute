@@ -134,6 +134,26 @@ A class could be something like this:
 
   1;
 
+Optionally, you can pass the options to instantiate the class in the
+configuration. Like this:
+
+  engines:
+    template_flute:
+      i18n:
+        class: MyApp::Lexicon
+        method: localize
+        options:
+          append: 'X'
+          prepend: 'Y'
+          lexicon: 'path/to/po/files'
+
+This will call
+
+ MyApp::Lexicon->new(append => 'X', prepend => 'Y', lexicon => 'path/to/po/files');
+
+when the engine is initialized, and will call the C<localize> method
+on it to get the translations.
+
 =head2 FORMS
 
 Dancer::Template::TemplateFlute includes a form plugin L<Dancer::Plugin::Form>,
@@ -295,15 +315,20 @@ sub default_tmpl_ext {
 	return 'html';
 }
 
-sub _i18n_sub {
+sub _i18n_obj {
     my $self = shift;
-    unless (exists $self->{_i18n_sub}) {
+    unless (exists $self->{_i18n_obj}) {
         my $conf = $self->config;
         my $localize;
         if ($conf and exists $conf->{i18n} and exists $conf->{i18n}->{class}) {
             my $class = $conf->{i18n}->{class};
             load $class;
-            my $obj = $class->new;
+            my %args;
+            if ($conf->{i18n}->{options}) {
+                # do a shallow copy and pass that
+                %args = %{ $conf->{i18n}->{options} };
+            }
+            my $obj = $class->new(%args);
             my $method = $conf->{i18n}->{method} || 'localize';
             # store the closure in the object to avoid loading it up each time
             $localize = sub {
@@ -311,9 +336,10 @@ sub _i18n_sub {
                 return $obj->$method($to_translate);
             };
         }
-        $self->{_i18n_sub} = $localize;
+        # provide a common interface with Template::Flute::I18N
+        $self->{_i18n_obj} = Template::Flute::I18N->new($localize);
     }
-    return $self->{_i18n_sub};
+    return $self->{_i18n_obj};
 }
 
 
@@ -328,8 +354,8 @@ sub render ($$$) {
 		 filters => $self->config->{filters},
 	    );
 
-    if (my $i18n = $self->_i18n_sub) {
-        $args{i18n} = Template::Flute::I18N->new($i18n);
+    if (my $i18n = $self->_i18n_obj) {
+        $args{i18n} = $i18n;
     }
 
 	$flute = Template::Flute->new(%args);

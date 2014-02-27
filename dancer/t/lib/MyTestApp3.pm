@@ -5,6 +5,10 @@ use Dancer ':syntax';
 set engines => { template_flute => { i18n => {
                                               class => 'MyTestApp::Lexicon2',
                                               method => 'try_to_translate',
+                                              options => {
+                                                          prepend => 'X ',
+                                                          append => ' Z',
+                                                         }
                                              }
                                    }
                };
