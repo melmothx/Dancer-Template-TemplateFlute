@@ -391,7 +391,6 @@ session.
 =cut
 
 sub pristine {
-    warn "Pristine is now: ", $_[0]->{pristine};
     return $_[0]->{pristine};
 };
 
