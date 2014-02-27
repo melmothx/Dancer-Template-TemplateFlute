@@ -1,5 +1,12 @@
 Revision history for Dancer::Template::TemplateFlute
 
+0.0101 Thu Feb 27 17:21:52 2014 CET
+
+    [ENHANCEMENTS]
+
+    * Pass options to the translation class (GH #3, Marco Pessotto).
+    * Add pristine method to Dancer::Plugin::Form object.
+
 0.0099 Mon Feb 10 21:20:19 2014 CET
 
     [ENHANCEMENTS]
