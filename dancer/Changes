@@ -1,5 +1,14 @@
 Revision history for Dancer::Template::TemplateFlute
 
+0.0102 Fri Feb 28 23:03:04 2014 CET
+
+    [ENHANCEMENTS]
+
+    * Check first whether one of the form values has a defined value before
+      lowering the pristine flag.
+
+    * Remove spurious warning from Dancer::Plugin::Form.
+
 0.0101 Thu Feb 27 17:21:52 2014 CET
 
     [ENHANCEMENTS]
