@@ -154,6 +154,23 @@ This will call
 when the engine is initialized, and will call the C<localize> method
 on it to get the translations.
 
+=head2 DEBUG TOOLS
+
+If you set check_dangling in the engine stanza, the specification will
+run a check (using the L<Template::Flute::Specification>'s C<dangling>
+method) against the template to see if you have elements of the
+specifications which are not bound to any HTML elements.
+
+In this case a debug message is issued (so keep in mind that with
+higher logging level you are not going to see it).
+
+Example configuration:
+
+  engines:
+    template_flute:
+      check_dangling: 1
+
+
 =head2 FORMS
 
 Dancer::Template::TemplateFlute includes a form plugin L<Dancer::Plugin::Form>,
@@ -417,6 +434,15 @@ sub render ($$$) {
     }
 	$html = $flute->process();
 
+    if ($self->config->{check_dangling}) {
+        if (my @warnings = $flute->specification->dangling) {
+            foreach my $warn (@warnings) {
+                Dancer::Logger::debug('Found dangling element '
+                                        . $warn->{type} . ' ' . $warn->{name}
+                                        . ' (' . $warn->{dump} . ')');
+            }
+        }
+    }
 	return $html;
 }
 
