@@ -7,6 +7,7 @@ MANIFEST
 MANIFEST.SKIP
 README
 t/00-load.t
+t/double-dropdown.t
 t/i18n-2.t
 t/i18n.t
 t/lib/MyTestApp.pm
@@ -21,6 +22,10 @@ t/template.t
 t/tf-iterator.t
 t/views/checkout-giftinfo.html
 t/views/checkout-giftinfo.xml
+t/views/double-1.html
+t/views/double-1.xml
+t/views/double-no-keep.html
+t/views/double-no-keep.xml
 t/views/double.html
 t/views/double.xml
 t/views/dropdown.html
