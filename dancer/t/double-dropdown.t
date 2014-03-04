@@ -38,7 +38,7 @@ sub form_handler {
     
 }
 
-use Test::More tests => 2, import => ['!pass'];
+use Test::More tests => 6, import => ['!pass'];
 
 use Dancer::Test;
 
@@ -53,17 +53,31 @@ my $expected = <<'FORM';
 FORM
 
 $expected =~ s/\n//g;
+my $empty_value = q{<option value="">Please select role</option>};
+my $selected = q{<option selected="selected">1</option>};
 
 my $resp = dancer_response POST => '/';
 # mah, we have to post twice. Looks like it has to warm up...
 
 $resp = dancer_response POST => '/', { body => { role => 1 } };
-diag to_dumper(read_logs);
 
-response_content_like($resp, qr/\Q$expected\E/, "No duplicated found");
+response_content_like($resp, qr/\Q$expected\E/,
+                      "No duplicated found with template double-1");
+
+response_content_like($resp, qr/\Q$empty_value\E/,
+                      "Found the empty value with the template double-1");
+response_content_like($resp, qr/\Q$selected\E/,
+                      "Found the selected with template double-1");
+
+
 
 $resp = dancer_response POST => '/no-keep', { body => { role => 1 } };
-diag to_dumper(read_logs);
 
-response_content_like($resp, qr/\Q$expected\E/, "No duplicated found");
+response_content_like($resp, qr/\Q$expected\E/,
+                      "No duplicated found with template double-no-keep");
 
+response_content_unlike($resp, qr/\Q$empty_value\E/,
+                        "Found the empty value without keep=empty_value");
+
+response_content_like($resp, qr/\Q$selected\E/,
+                      "Found the selected with template double-no-keep");
