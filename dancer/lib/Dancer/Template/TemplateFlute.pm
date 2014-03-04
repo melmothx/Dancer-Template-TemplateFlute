@@ -156,10 +156,10 @@ on it to get the translations.
 
 =head2 DEBUG TOOLS
 
-If you set check_dangling in the engine stanza, the specification will
-run a check (using the L<Template::Flute::Specification>'s C<dangling>
-method) against the template to see if you have elements of the
-specifications which are not bound to any HTML elements.
+If you set C<check_dangling> in the engine stanza, the specification
+will run a check (using the L<Template::Flute::Specification>'s
+C<dangling> method) against the template to see if you have elements
+of the specifications which are not bound to any HTML elements.
 
 In this case a debug message is issued (so keep in mind that with
 higher logging level you are not going to see it).
