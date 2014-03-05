@@ -1,5 +1,16 @@
 Revision history for Dancer::Template::TemplateFlute
 
+0.0103 Wed Mar  5 17:11:34 2014 CET
+
+    [BUG FIXES]
+
+    * Bump up prerequisite on Template::Flute in order to
+      fix duplicate dropdown problem.
+
+    [TESTS]
+
+    * Add tests for duplicate dropdowns (GH #5, Marco Pessotto).
+
 0.0102 Fri Feb 28 23:03:04 2014 CET
 
     [ENHANCEMENTS]
