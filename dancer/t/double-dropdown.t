@@ -34,7 +34,7 @@ sub form_handler {
                                     { value => '4' },
                                    ],
                           form => $form,
-                         };
+                         }, { layout => undef };
     
 }
 
@@ -72,6 +72,19 @@ response_content_like($resp, qr/\Q$selected\E/,
 
 
 $resp = dancer_response POST => '/no-keep', { body => { role => 1 } };
+
+$expected = <<'FORM';
+<select id="role" name="role">
+<option selected="selected">1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+</select>
+FORM
+
+$expected =~ s/\n//g;
+
+
 
 response_content_like($resp, qr/\Q$expected\E/,
                       "No duplicated found with template double-no-keep");
