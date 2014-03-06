@@ -18,6 +18,7 @@ t/lib/MyTestApp3.pm
 t/manifest.t
 t/pod-coverage.t
 t/pod.t
+t/session.t
 t/template.t
 t/tf-iterator.t
 t/views/checkout-giftinfo.html
@@ -40,3 +41,5 @@ t/views/multiple.html
 t/views/multiple.xml
 t/views/register.html
 t/views/register.xml
+t/views/salute.html
+t/views/salute.xml
