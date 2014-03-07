@@ -391,6 +391,14 @@ sub render ($$$) {
 		 autodetect => { disable => [qw/Dancer::Session::Abstract/] },
 	    );
 
+    # determine whether we need to pass an adjust URI to Template::Flute
+    my $request = $tokens->{request};
+    my $pos = index($request->path, $request->path_info);
+
+    if ($pos > 0) {
+        $args{uri} = substr($request->path, 0, $pos);
+    }
+
     if (my $i18n = $self->_i18n_obj) {
         $args{i18n} = $i18n;
     }
