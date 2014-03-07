@@ -352,6 +352,7 @@ sub render ($$$) {
 		 auto_iterators => 1,
 		 values => $tokens,
 		 filters => $self->config->{filters},
+		 autodetect => { disable => [qw/Dancer::Session/] },
 	    );
 
     if (my $i18n = $self->_i18n_obj) {
