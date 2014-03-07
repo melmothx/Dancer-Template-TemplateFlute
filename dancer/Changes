@@ -1,5 +1,13 @@
 Revision history for Dancer::Template::TemplateFlute
 
+0.0104 Fri Mar  7 13:49:05 2014 CET
+
+    [ENHANCEMENTS]
+
+    * Add support for disabling autodetection (GH #6, Marco Pessotto).
+    * Add support for checking dangling specification elements
+      (GH #4, Marco Pessotto)
+
 0.0103 Wed Mar  5 17:11:34 2014 CET
 
     [BUG FIXES]

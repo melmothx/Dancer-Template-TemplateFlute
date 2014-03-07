@@ -2,7 +2,7 @@ NAME
     Dancer::Template::TemplateFlute - Template::Flute wrapper for Dancer
 
 VERSION
-    Version 0.0103
+    Version 0.0104
 
 DESCRIPTION
     This class is an interface between Dancer's template engine abstraction
@@ -53,6 +53,23 @@ DESCRIPTION
                 int_curr_symbol: "$"
             image:
               class: "Flowers::Filters::Image"
+
+  DISABLE OBJECT AUTODETECTION
+    Sometimes you want to pass values to a template which are objects, but
+    don't have an accessor, so they should be treated like hashrefs instead.
+
+    By default, the class `Dancer::Session::Abstract' is treated this way.
+    You can specify additional classes with the following syntax:
+
+      engines:
+        template_flute:
+          autodetect:
+            disable:
+              - My::Class1
+              - My::Class2
+
+    The class matching is checked by Template::Flute with `isa', so any
+    parent class would do.
 
   LOCALIZATION
     Templates can be localized using the Template::Flute::I18N module. You
@@ -129,6 +146,21 @@ DESCRIPTION
 
     when the engine is initialized, and will call the `localize' method on
     it to get the translations.
+
+  DEBUG TOOLS
+    If you set `check_dangling' in the engine stanza, the specification will
+    run a check (using the Template::Flute::Specification's `dangling'
+    method) against the template to see if you have elements of the
+    specifications which are not bound to any HTML elements.
+
+    In this case a debug message is issued (so keep in mind that with higher
+    logging level you are not going to see it).
+
+    Example configuration:
+
+      engines:
+        template_flute:
+          check_dangling: 1
 
   FORMS
     Dancer::Template::TemplateFlute includes a form plugin
