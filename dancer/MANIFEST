@@ -7,6 +7,7 @@ MANIFEST
 MANIFEST.SKIP
 README
 t/00-load.t
+t/disable-autodect.t
 t/double-dropdown.t
 t/i18n-2.t
 t/i18n.t
@@ -39,6 +40,8 @@ t/views/login.html
 t/views/login.xml
 t/views/multiple.html
 t/views/multiple.xml
+t/views/objects.html
+t/views/objects.xml
 t/views/register.html
 t/views/register.xml
 t/views/salute.html
