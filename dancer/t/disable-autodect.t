@@ -1,19 +1,26 @@
 #!/usr/bin/env perl
 
-package My::Namespace::Class;
+use strict;
+use warnings;
 
+package My::Namespace;
 sub new {
     my ($class, %args) = @_;
     bless \%args, $class;
 }
 
+package My::Namespace::Class;
+use base 'My::Namespace';
+
+package Other::Namespace;
+
+sub new {
+    my ($class, %args) = @_;
+    bless \%args, $class;
+}
 
 package Other::Namespace::Class;
-
-sub new {
-    my ($class, %args) = @_;
-    bless \%args, $class;
-}
+use base 'Other::Namespace';
 
 package Good::Namespace::Class;
 

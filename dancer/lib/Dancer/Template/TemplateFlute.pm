@@ -80,8 +80,8 @@ Filter options and classes can be specified in the configuration file as below.
 Sometimes you want to pass values to a template which are objects, but
 don't have an accessor, so they should be treated like hashrefs instead.
 
-By default, the namespace C<Dancer::Session> is treated this way. You
-can specify additional namespaces with the following syntax:
+By default, the class C<Dancer::Session::Abstract> is treated this way. You
+can specify additional classes with the following syntax:
 
   engines:
     template_flute:
@@ -90,6 +90,9 @@ can specify additional namespaces with the following syntax:
           - My::Class1
           - My::Class2
 
+
+The class matching is checked by L<Template::Flute> with C<isa>, so
+any parent class would do.
 
 =head2 LOCALIZATION
 
@@ -368,7 +371,7 @@ sub render ($$$) {
 		 auto_iterators => 1,
 		 values => $tokens,
 		 filters => $self->config->{filters},
-		 autodetect => { disable => [qw/Dancer::Session/] },
+		 autodetect => { disable => [qw/Dancer::Session::Abstract/] },
 	    );
 
     if (my $i18n = $self->_i18n_obj) {
