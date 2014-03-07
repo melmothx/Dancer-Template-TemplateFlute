@@ -16,6 +16,7 @@ t/lib/MyTestApp/Lexicon.pm
 t/lib/MyTestApp/Lexicon2.pm
 t/lib/MyTestApp2.pm
 t/lib/MyTestApp3.pm
+t/dangling.t
 t/manifest.t
 t/pod-coverage.t
 t/pod.t
@@ -42,6 +43,8 @@ t/views/multiple.html
 t/views/multiple.xml
 t/views/objects.html
 t/views/objects.xml
+t/views/product.html
+t/views/product.xml
 t/views/register.html
 t/views/register.xml
 t/views/salute.html
