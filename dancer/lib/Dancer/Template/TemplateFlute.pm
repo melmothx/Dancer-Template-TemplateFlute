@@ -75,6 +75,25 @@ Filter options and classes can be specified in the configuration file as below.
         image:
           class: "Flowers::Filters::Image"
 
+=head2 DISABLE OBJECT AUTODETECTION
+
+Sometimes you want to pass values to a template which are objects, but
+don't have an accessor, so they should be treated like hashrefs instead.
+
+By default, the class C<Dancer::Session::Abstract> is treated this way. You
+can specify additional classes with the following syntax:
+
+  engines:
+    template_flute:
+      autodetect:
+        disable:
+          - My::Class1
+          - My::Class2
+
+
+The class matching is checked by L<Template::Flute> with C<isa>, so
+any parent class would do.
+
 =head2 LOCALIZATION
 
 Templates can be localized using the Template::Flute::I18N module. You
@@ -369,10 +388,16 @@ sub render ($$$) {
 		 auto_iterators => 1,
 		 values => $tokens,
 		 filters => $self->config->{filters},
+		 autodetect => { disable => [qw/Dancer::Session::Abstract/] },
 	    );
 
     if (my $i18n = $self->_i18n_obj) {
         $args{i18n} = $i18n;
+    }
+
+    if ($self->config->{autodetect} && $self->config->{autodetect}->{disable}) {
+        push @{$args{autodetect}{disable}},
+          @{$self->config->{autodetect}->{disable}};
     }
 
 	$flute = Template::Flute->new(%args);

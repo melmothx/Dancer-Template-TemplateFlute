@@ -7,6 +7,7 @@ MANIFEST
 MANIFEST.SKIP
 README
 t/00-load.t
+t/disable-autodect.t
 t/double-dropdown.t
 t/i18n-2.t
 t/i18n.t
@@ -19,6 +20,7 @@ t/dangling.t
 t/manifest.t
 t/pod-coverage.t
 t/pod.t
+t/session.t
 t/template.t
 t/tf-iterator.t
 t/views/checkout-giftinfo.html
@@ -39,7 +41,11 @@ t/views/login.html
 t/views/login.xml
 t/views/multiple.html
 t/views/multiple.xml
+t/views/objects.html
+t/views/objects.xml
 t/views/product.html
 t/views/product.xml
 t/views/register.html
 t/views/register.xml
+t/views/salute.html
+t/views/salute.xml
