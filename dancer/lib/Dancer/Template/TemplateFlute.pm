@@ -75,6 +75,11 @@ Filter options and classes can be specified in the configuration file as below.
         image:
           class: "Flowers::Filters::Image"
 
+=head2 ADJUSTING URIS
+
+We automatically adjust links in the templates if the value of
+C<request->path> is different from C<request->path_info>.
+
 =head2 DISABLE OBJECT AUTODETECTION
 
 Sometimes you want to pass values to a template which are objects, but
