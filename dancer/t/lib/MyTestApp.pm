@@ -144,8 +144,11 @@ any [qw/get post/] => '/double-dropdown-noform' => sub {
                        };
 };
 
+get '/ampersand' => sub {
+    my @countries = ({name => 'Trinidad&Tobago'});
 
-
+    template 'ampersand', {countries => \@countries};
+};
 
 sub iterator {
     return [{ label => "a",

@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 74;
+use Test::More tests => 76;
 
 use File::Spec;
 use Data::Dumper;
@@ -16,7 +16,7 @@ set template => 'template_flute';
 set views => 't/views';
 set log => 'debug';
 set logger => 'console';
-
+set layout => 'main';
 
 use MyTestApp;
 use Dancer::Test;
@@ -223,9 +223,12 @@ response_content_like $resp,
   qr{<select id="role" name="role"><option value="">Please select role</option><option>1</option><option>2</option><option>3</option><option>4</option></select>},
   "No duplicate for a dropdown with a form";
 
+$resp = dancer_response GET => '/ampersand';
 
-
-
+response_status_is $resp, 200, "GET /ampersand is found";
+response_content_like $resp,
+  qr{<select class="countries"><option>Select</option><option>Trinidad&amp;Tobago</option></select>},
+  "Testing ampersand injected from data";
 
 sub check_sticky_form {
     my ($res, %params) = @_;
