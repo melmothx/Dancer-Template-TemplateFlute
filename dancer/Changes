@@ -1,5 +1,11 @@
 Revision history for Dancer::Template::TemplateFlute
 
+0.0106 Sun Mar  9 14:17:03 2014 CET
+
+    [ENHANCEMENTS]
+
+    * Add support for URI adjust feature.
+
 0.0104 Fri Mar  7 13:49:05 2014 CET
 
     [ENHANCEMENTS]

@@ -2,7 +2,7 @@ NAME
     Dancer::Template::TemplateFlute - Template::Flute wrapper for Dancer
 
 VERSION
-    Version 0.0104
+    Version 0.0106
 
 DESCRIPTION
     This class is an interface between Dancer's template engine abstraction
@@ -53,6 +53,10 @@ DESCRIPTION
                 int_curr_symbol: "$"
             image:
               class: "Flowers::Filters::Image"
+
+  ADJUSTING URIS
+    We automatically adjust links in the templates if the value of
+    `request-'path> is different from `request-'path_info>.
 
   DISABLE OBJECT AUTODETECTION
     Sometimes you want to pass values to a template which are objects, but
