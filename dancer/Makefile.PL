@@ -14,7 +14,7 @@ WriteMakefile(
     PREREQ_PM => {
         'Test::More' => 0,
         'Dancer' => 0,
-        'Template::Flute' => 0.0104,
+        'Template::Flute' => 0.0106,
     },
     META_MERGE => {
         'meta-spec' => { version => 2 },
