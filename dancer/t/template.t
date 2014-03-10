@@ -7,6 +7,7 @@ use Test::More tests => 76;
 
 use File::Spec;
 use Data::Dumper;
+use XML::Twig;
 
 use lib File::Spec->catdir( 't', 'lib' );
 
@@ -222,6 +223,8 @@ $resp = dancer_response GET => '/double-dropdown';
 response_content_like $resp,
   qr{<select id="role" name="role"><option value="">Please select role</option><option>1</option><option>2</option><option>3</option><option>4</option></select>},
   "No duplicate for a dropdown with a form";
+
+diag "Testing entities with $XML::Twig::VERSION";
 
 $resp = dancer_response GET => '/ampersand';
 
