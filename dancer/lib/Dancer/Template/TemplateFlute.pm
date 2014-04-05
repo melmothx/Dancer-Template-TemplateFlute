@@ -477,7 +477,7 @@ sub render ($$$) {
             foreach my $warn (@warnings) {
                 Dancer::Logger::debug('Found dangling element '
                                         . $warn->{type} . ' ' . $warn->{name}
-                                        . ' (' . $warn->{dump} . ')');
+                                        . ' (' , $warn->{dump} , ')');
             }
         }
     }
