@@ -470,6 +470,10 @@ sub render ($$$) {
                                   join(", ", sort map { $_->name } @forms));
         }
     }
+    elsif ($tokens->{form}) {
+        Dancer::Logger::debug('Form passed, but no forms found in the template.');
+    }
+
 	$html = $flute->process();
 
     if ($self->config->{check_dangling}) {
