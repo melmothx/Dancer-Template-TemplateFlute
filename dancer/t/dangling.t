@@ -8,6 +8,7 @@ use Data::Dumper;
 
 use Dancer qw/:syntax/;
 
+set environment => 'production';
 set engines => {
                 template_flute => { check_dangling => 1 },
                };
