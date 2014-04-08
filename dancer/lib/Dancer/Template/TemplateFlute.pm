@@ -206,6 +206,12 @@ Example configuration:
     template_flute:
       check_dangling: 1
 
+When the environment is set to C<development> this feature is turned
+on by default. You can silence the logs by setting:
+
+  engines:
+    template_flute:
+      disable_check_dangling: 1
 
 =head2 FORMS
 
@@ -498,7 +504,10 @@ sub render ($$$) {
 
 	$html = $flute->process();
 
-    if ($self->config->{check_dangling}) {
+    if ($self->config->{check_dangling} or
+        ($tokens->{settings}->{environment} eq 'development' &&
+         !$self->config->{disable_check_dangling})) {
+
         if (my @warnings = $flute->specification->dangling) {
             foreach my $warn (@warnings) {
                 Dancer::Logger::debug('Found dangling element '
