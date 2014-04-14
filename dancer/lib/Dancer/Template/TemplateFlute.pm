@@ -80,6 +80,13 @@ Filter options and classes can be specified in the configuration file as below.
 We automatically adjust links in the templates if the value of
 C<request->path> is different from C<request->path_info>.
 
+=head2 EMBEDDING IMAGES IN EMAILS
+
+If you pass a value named C<email_cids>, which should be an empty hash
+reference, all the images C<src> attributes will be rewritten using
+the CIDs, and the reference will be populated with an hashref, as
+documented in L<Template::Flute>
+
 =head2 DISABLE OBJECT AUTODETECTION
 
 Sometimes you want to pass values to a template which are objects, but
@@ -406,6 +413,10 @@ sub render ($$$) {
 
     if (my $i18n = $self->_i18n_obj) {
         $args{i18n} = $i18n;
+    }
+
+    if (my $email_cids = $tokens->{email_cids}) {
+        $args{email_cids} = $email_cids;
     }
 
     if ($self->config->{autodetect} && $self->config->{autodetect}->{disable}) {
