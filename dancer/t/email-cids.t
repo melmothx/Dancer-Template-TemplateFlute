@@ -5,7 +5,7 @@ use warnings;
 
 use File::Spec;
 use Data::Dumper;
-use Test::More tests => 2, import => ['!pass'];
+use Test::More tests => 4, import => ['!pass'];
 use Dancer qw/:tests/;
 
 set template => 'template_flute';
@@ -29,4 +29,8 @@ is_deeply $email_cids, {
                                      }
                        }, "Cids ok";
 
+my $other = template mail => {};
+
+like $other, qr/src="foo\.png".*src="foo-bla.png"/;
+unlike $other, qr/cid:/, "No hashref passed, no cid replaced";
 
