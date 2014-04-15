@@ -30,16 +30,17 @@ foreach my $cid (keys %$cids) {
                        };
 }
 
-my ($from, $to) = @ARGV;
+my ($from, $to, $subject) = @ARGV;
 die "Missing sender and/or recipient" unless $from && $to;
 
 my $email = {
              from    => $from,
              to      => $to,
-             subject => 'Template::Flute test mail',
+             subject => $subject || 'Template::Flute test mail with patched DPE',
              body    => $mail,
              type    => 'html',
              attach  => \@attachments,
+             multipart => 'related',
             };
 
 print to_dumper($email);
