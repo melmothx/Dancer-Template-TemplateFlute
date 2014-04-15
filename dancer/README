@@ -2,7 +2,7 @@ NAME
     Dancer::Template::TemplateFlute - Template::Flute wrapper for Dancer
 
 VERSION
-    Version 0.0106
+    Version 0.0113
 
 DESCRIPTION
     This class is an interface between Dancer's template engine abstraction
@@ -57,6 +57,12 @@ DESCRIPTION
   ADJUSTING URIS
     We automatically adjust links in the templates if the value of
     `request-'path> is different from `request-'path_info>.
+
+  EMBEDDING IMAGES IN EMAILS
+    If you pass a value named `email_cids', which should be an empty hash
+    reference, all the images `src' attributes will be rewritten using the
+    CIDs, and the reference will be populated with an hashref, as documented
+    in Template::Flute
 
   DISABLE OBJECT AUTODETECTION
     Sometimes you want to pass values to a template which are objects, but
