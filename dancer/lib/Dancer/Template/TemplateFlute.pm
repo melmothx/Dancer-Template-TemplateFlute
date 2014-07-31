@@ -482,7 +482,7 @@ sub render ($$$) {
         }
     }
     elsif ($tokens->{form}) {
-        Dancer::Logger::debug('Form passed, but no forms found in the template.');
+        Dancer::Logger::debug('Form ' . $tokens->{form}->name . " passed, but no forms found in the template $template.");
     }
 
 	$html = $flute->process();
