@@ -1,4 +1,8 @@
 Changes
+examples/hello.png
+examples/mail.html
+examples/mail.xml
+examples/send-mail.pl
 lib/Dancer/Plugin/Form.pm
 lib/Dancer/Template/TemplateFlute.pm
 LICENSE
@@ -11,6 +15,7 @@ t/dangling-on.t
 t/dangling.t
 t/disable-autodect.t
 t/double-dropdown.t
+t/email-cids.t
 t/i18n-2.t
 t/i18n.t
 t/lib/MyTestApp.pm
@@ -18,6 +23,7 @@ t/lib/MyTestApp/Lexicon.pm
 t/lib/MyTestApp/Lexicon2.pm
 t/lib/MyTestApp2.pm
 t/lib/MyTestApp3.pm
+t/list-checkboxes.t
 t/manifest.t
 t/pod-coverage.t
 t/pod.t
@@ -26,6 +32,8 @@ t/template.t
 t/tf-iterator.t
 t/views/ampersand.html
 t/views/ampersand.xml
+t/views/checkbox.html
+t/views/checkbox.xml
 t/views/checkout-giftinfo.html
 t/views/checkout-giftinfo.xml
 t/views/double-1.html
@@ -44,6 +52,8 @@ t/views/layouts/main.html
 t/views/layouts/main.xml
 t/views/login.html
 t/views/login.xml
+t/views/mail.html
+t/views/mail.xml
 t/views/multiple.html
 t/views/multiple.xml
 t/views/objects.html

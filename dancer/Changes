@@ -1,5 +1,20 @@
 Revision history for Dancer::Template::TemplateFlute
 
+0.0113 Tue Apr 15 17:56:39 2014 CEST
+
+    [ENHANCEMENTS]
+
+    * Add support for embedding images in emails (GH #11, Marco Pessotto).
+    * Issue debug message if form token is passed, but no form is found in
+      the template.
+    * Don't stringify dump hash produced by dangling check.
+
+    [TESTS]
+
+    * Add tests for checkboxes in lists (Marco Pessotto).
+    * Report XML::Twig version when testing entities (GH #7, Marco Pessotto)
+    * Add test for ampersand crash (GH #7).
+
 0.0106 Sun Mar  9 14:17:03 2014 CET
 
     [ENHANCEMENTS]
