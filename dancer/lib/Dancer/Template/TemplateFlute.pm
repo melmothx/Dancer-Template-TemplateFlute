@@ -8,6 +8,7 @@ use Template::Flute::Iterator;
 use Template::Flute::Utils;
 use Template::Flute::I18N;
 use Module::Load;
+use Scalar::Util qw/blessed/;
 
 use Dancer::Config;
 
@@ -482,7 +483,9 @@ sub render ($$$) {
         }
     }
     elsif ($tokens->{form}) {
-        Dancer::Logger::debug('Form ' . $tokens->{form}->name . " passed, but no forms found in the template $template.");
+        my $form_name = blessed($tokens->{form}) ? $tokens->{form}->name : $tokens->{form};
+
+        Dancer::Logger::debug("Form $form_name passed, but no forms found in the template $template.");
     }
 
 	$html = $flute->process();
