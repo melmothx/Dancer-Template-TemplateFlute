@@ -88,6 +88,10 @@ reference, all the images C<src> attributes will be rewritten using
 the CIDs, and the reference will be populated with an hashref, as
 documented in L<Template::Flute>
 
+Further options for the CIDs should be passed in an optional value
+named C<cids>. See L<Template::Flute> for them.
+
+
 =head2 DISABLE OBJECT AUTODETECTION
 
 Sometimes you want to pass values to a template which are objects, but
@@ -418,6 +422,10 @@ sub render ($$$) {
 
     if (my $email_cids = $tokens->{email_cids}) {
         $args{email_cids} = $email_cids;
+        # use the 'cids' tokens only if email_cids is defined
+        if (my $cid_options = $tokens->{cids}) {
+            $args{cids} = { %$cid_options };
+        }
     }
 
     if ($self->config->{autodetect} && $self->config->{autodetect}->{disable}) {
