@@ -1,5 +1,16 @@
 Revision history for Dancer::Template::TemplateFlute
 
+0.0140 Thu Oct  2 10:03:13 2014 CEST
+
+    [API CHANGES]
+
+    * Overhaul support for email CIDs (GH #12, Marco Pessotto).
+
+    [BUG FIXES]
+
+    * Prevent crash when $tokens->{form} isn't an object (Stefan Hornburg).
+    * Add more information to missing form debug message (Stefan Hornburg).
+
 0.0113 Tue Apr 15 17:56:39 2014 CEST
 
     [ENHANCEMENTS]

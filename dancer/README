@@ -2,7 +2,7 @@ NAME
     Dancer::Template::TemplateFlute - Template::Flute wrapper for Dancer
 
 VERSION
-    Version 0.0113
+    Version 0.0140
 
 DESCRIPTION
     This class is an interface between Dancer's template engine abstraction
@@ -63,6 +63,9 @@ DESCRIPTION
     reference, all the images `src' attributes will be rewritten using the
     CIDs, and the reference will be populated with an hashref, as documented
     in Template::Flute
+
+    Further options for the CIDs should be passed in an optional value named
+    `cids'. See Template::Flute for them.
 
   DISABLE OBJECT AUTODETECTION
     Sometimes you want to pass values to a template which are objects, but
