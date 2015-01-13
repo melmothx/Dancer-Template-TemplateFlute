@@ -2,7 +2,7 @@ NAME
     Dancer::Template::TemplateFlute - Template::Flute wrapper for Dancer
 
 VERSION
-    Version 0.0140
+    Version 0.0141
 
 DESCRIPTION
     This class is an interface between Dancer's template engine abstraction
@@ -174,6 +174,13 @@ DESCRIPTION
       engines:
         template_flute:
           check_dangling: 1
+
+    When the environment is set to `development' this feature is turned on
+    by default. You can silence the logs by setting:
+
+      engines:
+        template_flute:
+          disable_check_dangling: 1
 
   FORMS
     Dancer::Template::TemplateFlute includes a form plugin
@@ -349,7 +356,7 @@ SUPPORT
         http://search.cpan.org/dist/Dancer-Template-TemplateFlute/
 
 LICENSE AND COPYRIGHT
-    Copyright 2011-2014 Stefan Hornburg (Racke) <racke@linuxia.de>.
+    Copyright 2011-2015 Stefan Hornburg (Racke) <racke@linuxia.de>.
 
     This program is free software; you can redistribute it and/or modify it
     under the terms of either: the GNU General Public License as published

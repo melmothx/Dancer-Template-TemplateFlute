@@ -1,5 +1,17 @@
 Revision history for Dancer::Template::TemplateFlute
 
+0.0141 Tue Jan 13 15:59:38 2015 CET
+
+    [ENHANCEMENTS]
+
+    * Turn check_dangling on by default in development environment
+      (GH #10, #11, Marco Pessotto).
+
+    [BUG FIXES]
+
+    * Fix assignment to form_errors in failure method from Form plugin
+      (Stefan Hornburg).
+
 0.0140 Thu Oct  2 10:03:13 2014 CEST
 
     [API CHANGES]
