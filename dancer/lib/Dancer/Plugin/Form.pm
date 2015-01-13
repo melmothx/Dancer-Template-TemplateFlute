@@ -342,7 +342,7 @@ sub failure {
     # update session data about this form
     $self->to_session();
 
-    session(form_errors => '<ul>' . join('', map {"<li>$_->[1]</li>"} @{$args{errors} || []}) . '</ul>');
+    session(form_errors => '<ul>' . join('', map {"<li>$_</li>"} CORE::values %{$args{errors} || {}}) . '</ul>');
 
     session(form_data => $args{data});
 
