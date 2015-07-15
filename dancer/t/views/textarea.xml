@@ -1,0 +1,5 @@
+<specification name="textarea">
+  <form name="textarea" id="textarea">
+    <field name="content"/>
+  </form>
+</specification>
