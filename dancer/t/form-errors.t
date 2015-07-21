@@ -21,6 +21,8 @@ get '/' => sub {
             $error_string .= $error->{name} . ': ' . $error->{label} . "\n";
         }
     }
+    # call it just to see if we have a crash
+    my $ref = $form->errors_hashed;
     template 'error-form' => {
                               errors => $error_string,
                               form => $form,
