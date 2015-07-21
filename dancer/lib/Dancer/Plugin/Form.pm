@@ -79,7 +79,7 @@ Form fields, values and errors are stored into and loaded from the session key C
 =head2 new
 
 Creates C<Dancer::Plugin::Form> object.
-    
+
 =cut
     
 sub new {
@@ -244,7 +244,7 @@ Set form status to "invalid":
 The form status automatically changes to
 "invalid" when errors method is called with
 error messages.
-    
+
 =cut
 
 sub valid {
@@ -269,9 +269,18 @@ Set form errors:
    $form->errors({username => 'Minimum 8 characters',
                   email => 'Invalid email address'});
 
-Get form errors as hash reference:
+Calling $form->errors with an argument triggers the storing of the
+errors in the session.
+
+
+Get form errors as an array reference:
 
    $errors = $form->errors;
+
+This returns
+
+  [ { name => 'username', label => 'Minimum 8 characters' },
+    { name => 'email', label => 'Invalid email address' } ],
 
 =cut
     
@@ -280,35 +289,28 @@ sub errors {
     my ($key, $value, @buf);
     
     if ($errors) {
-	if (ref($errors) eq 'HASH') {
-	    while (($key, $value) = each %$errors) {
-		push @buf, {name => $key, label => $value};
-	    }
-	    $self->{errors} = \@buf;
-	}
-
-	$self->{valid} = 0;
+        if (ref($errors) eq 'HASH') {
+            while (($key, $value) = each %$errors) {
+                push @buf, {name => $key, label => $value};
+            }
+            $self->{errors} = \@buf;
+        }
+        $self->{valid} = 0;
+        $self->to_session;
     }
 
     return $self->{errors};
 }
 
-=head2 errors_hashed
+=head2 errors_hashed [DEPRECATED]
 
-Returns form errors as array reference filled with a hash reference
-for each error.
+Alias for C<errors>.
 
 =cut
 
 sub errors_hashed {
-    my ($self) = @_;
-    my (@hashed);
-
-    for my $err (@{$self->{errors}}) {
-	push (@hashed, {name => $err->[0], label => $err->[1]});
-    }
-
-    return \@hashed;
+    my ($self, @args) = @_;
+    return $self->errors(@args);
 }
 
 =head2 failure

@@ -7,7 +7,7 @@ lib/Dancer/Plugin/Form.pm
 lib/Dancer/Template/TemplateFlute.pm
 LICENSE
 Makefile.PL
-MANIFEST
+MANIFEST			This list of files
 MANIFEST.SKIP
 README
 t/00-load.t
@@ -16,6 +16,7 @@ t/dangling.t
 t/disable-autodect.t
 t/double-dropdown.t
 t/email-cids.t
+t/form-errors.t
 t/i18n-2.t
 t/i18n.t
 t/lib/MyTestApp.pm
@@ -44,6 +45,8 @@ t/views/double.html
 t/views/double.xml
 t/views/dropdown.html
 t/views/dropdown.xml
+t/views/error-form.html
+t/views/error-form.xml
 t/views/i18n.html
 t/views/i18n.xml
 t/views/index.html
