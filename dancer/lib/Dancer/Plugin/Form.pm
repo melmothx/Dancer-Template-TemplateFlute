@@ -262,17 +262,8 @@ sub valid {
     return $self->{valid};
 }
 
-=head2 errors
+=head2 errors(\%errors, %opts);
     
-Set form errors:
-    
-   $form->errors({username => 'Minimum 8 characters',
-                  email => 'Invalid email address'});
-
-Calling $form->errors with an argument triggers the storing of the
-errors in the session.
-
-
 Get form errors as an array reference:
 
    $errors = $form->errors;
@@ -282,27 +273,78 @@ This returns
   [ { name => 'username', label => 'Minimum 8 characters' },
     { name => 'email', label => 'Invalid email address' } ],
 
+Set form errors:
+    
+   $form->errors({username => 'Minimum 8 characters',
+                  email => 'Invalid email address'});
+
+Calling $form->errors with an argument triggers the storing of the
+errors in the session.
+
+Only an hashref of errors as the first argument is accepted.
+
+The values of the hashref can be a scalar or an arrayref. In the
+latter case the arrayref is turned into a scalar joining the values.
+
+Default joiner is ', ', but you can set it passing C<joiner> in the
+option hash.
+
+E.G.
+    $form->errors({username => ['Error 1', 'Error 2'],
+                   email => 'Invalid email address'}, joiner => ' <br> ');
+
+And $form->errors will return:
+
+  [ { name => 'username', label => 'Error 1 <br> Error 2' },
+    { name => 'email', label => 'Invalid email address' } ],
+
+This can combined with L<Data::Transpose::Validator> calling
+
+$form->errors($dtv->errors_as_hashref_for_humans);
+
 =cut
     
 sub errors {
-    my ($self, $errors) = @_;
+    my ($self, $errors, %opts) = @_;
     my ($key, $value, @buf);
     
     if ($errors) {
         if (ref($errors) eq 'HASH') {
-            while (($key, $value) = each %$errors) {
-                push @buf, {name => $key, label => $value};
+            foreach my $key (%$errors) {
+                my $value = $errors->{$key};
+                my $label;
+                if (my $type = ref($value)) {
+                    if ($type eq 'ARRAY') {
+                        my $joiner = ', ';
+                        if (defined $opts{joiner}) {
+                            $joiner = $opts{joiner};
+                        }
+                        $label = join($joiner, @$value);
+                    }
+                    else {
+                        error "values of hashref passed to form->error "
+                          . " must be a scalar or an array, not "
+                          . to_dumper($value);
+                        die "Invalid data passed to errors";
+                    }
+                }
+                else {
+                    $label = $value;
+                }
+                if (defined $label) {
+                    push @buf, {name => $key, label => $label};
+                }
             }
             $self->{errors} = \@buf;
         }
         else {
             error "form->error methods accept only an hashref, while " .
               to_dumper($errors) . " was passed";
+            die "Invalid data passed to errors";
         }
         $self->{valid} = 0;
         $self->to_session;
     }
-
     return $self->{errors};
 }
 
@@ -316,6 +358,47 @@ sub errors_hashed {
     my ($self, @args) = @_;
     return $self->errors(@args);
 }
+
+=head2 error_tokens(prefix => 'error', prefix_joiner => '_');
+
+Return an hashref with the error values. Errors are stored internally
+as an arrayref of hashref with C<name> and C<label> keys. This methods
+return an hashref.
+
+The keys are prefixed by the concatenation of the C<prefix> argument
+(default C<error>), C<prefix_joiner> (default C<_>), and the error
+name.
+
+E.g.
+
+ $form->errors({ mail => 'not valid' });
+
+Call to C<error_tokens> will yield
+
+ { error_mail => 'not valid' }
+
+=cut
+
+sub error_tokens {
+    my ($self, %opts) = @_;
+    my %default = (prefix => 'error',
+                   prefix_joiner => '_',
+                  );
+    foreach my $k (keys %opts) {
+        if (defined $opts{$k}) {
+            $default{$k} = $opts{$k};
+        }
+    }
+    my %out;
+    if (my $errors = $self->errors) {
+        foreach my $k (@$errors) {
+            $out{$default{prefix} . $default{prefix_joiner} . $k->{name}} =
+              $k->{label};
+        }
+    }
+    return \%out;
+}
+
 
 =head2 failure
 
