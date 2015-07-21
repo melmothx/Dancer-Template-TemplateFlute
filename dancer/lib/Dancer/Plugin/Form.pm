@@ -295,6 +295,10 @@ sub errors {
             }
             $self->{errors} = \@buf;
         }
+        else {
+            error "form->error methods accept only an hashref, while " .
+              to_dumper($errors) . " was passed";
+        }
         $self->{valid} = 0;
         $self->to_session;
     }
