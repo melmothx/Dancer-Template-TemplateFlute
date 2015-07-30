@@ -15,6 +15,7 @@ WriteMakefile(
         'Test::More' => 0,
         'Dancer' => 0,
         'Template::Flute' => 0.0140,
+        'Data::Transpose' => 0.0006,
     },
     META_MERGE => {
         'meta-spec' => { version => 2 },

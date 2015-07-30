@@ -17,6 +17,7 @@ t/disable-autodect.t
 t/double-dropdown.t
 t/email-cids.t
 t/form-errors.t
+t/form.t
 t/i18n-2.t
 t/i18n.t
 t/lib/MyTestApp.pm
@@ -47,6 +48,8 @@ t/views/dropdown.html
 t/views/dropdown.xml
 t/views/error-form.html
 t/views/error-form.xml
+t/views/errors_display.html
+t/views/errors_display.xml
 t/views/i18n.html
 t/views/i18n.xml
 t/views/index.html
